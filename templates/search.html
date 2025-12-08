@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Search Games</h2>
+
+<form method="get" action="/search">
+    <input type="text" name="q" value="{{ query }}" placeholder="Enter game title">
+    <button type="submit">Search</button>
+</form>
+
+{% if results %}
+    <h3>Results</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Platform</th>
+            <th>Retailer</th>
+            <th>Price</th>
+            <th>Add to Cart</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in results %}
+        <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.platform }}</td>
+            <td>{{ item.retailer }}</td>
+            <td>${{ "%.2f"|format(item.price) }}</td>
+            <td>
+                <form method="post" action="/cart/add">
+                    <input type="hidden" name="retailer" value="{{ item.retailer }}">
+                    <input type="hidden" name="title" value="{{ item.title }}">
+                    <input type="hidden" name="sku" value="{{ item.sku }}">
+                    <input type="hidden" name="price" value="{{ item.price }}">
+                    <input type="hidden" name="product_url" value="{{ item.product_url }}">
+                    <button type="submit">Add</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% elif query %}
+    <p>No results found for "{{ query }}".</p>
+{% endif %}
+{% endblock %}
