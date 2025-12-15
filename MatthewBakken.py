@@ -3,6 +3,8 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import httpx # for api call
+from urllib.parse import quote
 
 # FastAPI app configuration#
 
@@ -18,20 +20,71 @@ app.mount("/static", StaticFiles(directory="static"), name ="static")
 
 local_cart =[]
 
-# real API call to best buy
-#needed dependency libary is httpx
-def search_bestbuy_mock(query: str):
-    return [
-        {
-            "title": f"{query} (Best Buy Edition)",
-            "platform": "PS5",
-            "price": 59.99,
-            "retailer": "Best Buy",
-            "product_url": "https://www.bestbuy.com/site/example",
-            "thumbnail_url": "https://via.placeholder.com/150",
-            "sku": "BB123"
-        }
-    ]
+# real API call to best buy, needed dependency libary is httpx
+
+BESTBUY_API_KEY = os.getenv("BESTBUY_API_KEY")
+print("BESTBUY_API_KEY present:", bool(BESTBUY_API_KEY)) # checking if the api key was working, can remove later
+
+async def search_bestbuy(query: str, page_size: int = 10):
+    api_key = os.getenv("BESTBUY_API_KEY")
+    if not api_key:
+        print("BB: missing api key")
+        return[]
+
+    q = quote(query)
+    tokens = [t for t in query.split() if t]
+    criteria = "(" + "&".join([f"search={quote(t)}" for t in tokens]) + ")"
+    url = f"https://api.bestbuy.com/v1/products{criteria}"
+
+    params = {
+        "apiKey": BESTBUY_API_KEY,
+        "format": "json",
+        "show": "sku,name,salePrice,regularPrice,url,image,thumbnailImage,addToCartUrl",
+        "pageSize": min(max(page_size, 1), 100),
+        "sort": "salePrice.asc",
+    }
+
+    timeout = httpx.Timeout(10.0, connect=5.0)
+
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        resp = await client.get(url, params=params)
+        print("BB request:", resp.request.url) # debug
+        print("BB status:", resp.status_code) # debug
+        resp.raise_for_status()
+        data = resp.json()
+
+    products = data.get("products", []) or []
+    print("BB total:", data.get("total"), "returned:", len(products))#debug
+
+    results = []
+    for p in products:
+        results.append(
+            {
+                "title": p.get("name") or "Unknown",
+                "price": p.get("salePrice"),
+                "sku": str(p.get("sku") or ""),
+                "retailer": "Best Buy",
+                "product_url": p.get("url") or "",
+                "thumbnail_url": p.get("thumbnailImage") or p.get("image") or "",
+            }
+        )
+
+    return results
+
+
+#MOCK SEARCH
+# def search_bestbuy_mock(query: str):
+#     return [
+#         {
+#             "title": f"{query} (Best Buy Edition)",
+#             "platform": "PS5",
+#             "price": 59.99,
+#             "retailer": "Best Buy",
+#             "product_url": "https://www.bestbuy.com/site/example",
+#             "thumbnail_url": "https://via.placeholder.com/150",
+#             "sku": "BB123"
+#         }
+#     ]
 
 
 def search_target_mock(query: str):
@@ -87,11 +140,23 @@ async def profile(request: Request):
 @app.get("/search", response_class=HTMLResponse)
 async def search_games_page(request: Request, q: str | None = None):
     results = []
+    # if q:
+    #     # Combine results from different retailers -- filler data for now API data to go in here
+    #     # bb_results = await search_bestbuy(q)
+    #             # mock results
+    #     bb_results = search_bestbuy_mock(q)
+    #     tg_results = search_target_mock(q)
+    #     results = bb_results + tg_results
+
+
+    ##DEBUGGING
     if q:
-        # Combine results from different retailers -- filler data for now API data to go in here
-        bb_results = search_bestbuy_mock(q)
+        bb_results = await search_bestbuy(q)
+        print("BB results:", len(bb_results))
         tg_results = search_target_mock(q)
+        print("Target results:", len(tg_results))
         results = bb_results + tg_results
+
 
     return templates.TemplateResponse(
         "search.html",
