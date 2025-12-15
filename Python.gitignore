@@ -8,6 +8,15 @@ __pycache__/
 *.user
 *.suo
 
+#Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+#Optional but common
+.env
+.DS_Store
 
 # C extensions
 *.so

@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\matt9\\source\\repos\\2025_12_Team2\\MatthewBakken\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{52563876-382D-4F45-AA4D-2B19CAC4754A}|MatthewBakken.pyproj|C:\\Users\\matt9\\source\\repos\\2025_12_Team2\\MatthewBakken\\Python.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{52563876-382D-4F45-AA4D-2B19CAC4754A}|MatthewBakken.pyproj|solutionrelative:Python.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\matt9\\source\\repos\\2025_12_Team2\\MatthewBakken\\Python.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Python.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,21 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Python.gitignore",
-              "DocumentMoniker": "C:\\Users\\matt9\\source\\repos\\2025_12_Team2\\MatthewBakken\\Python.gitignore",
-              "RelativeDocumentMoniker": "Python.gitignore",
-              "ToolTip": "C:\\Users\\matt9\\source\\repos\\2025_12_Team2\\MatthewBakken\\Python.gitignore",
-              "RelativeToolTip": "Python.gitignore",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-12-15T02:12:38.835Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -42,8 +29,17 @@
               "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Python.gitignore",
+              "DocumentMoniker": "C:\\Users\\matt9\\source\\repos\\2025_12_Team2\\MatthewBakken\\Python.gitignore",
+              "RelativeDocumentMoniker": "Python.gitignore",
+              "ToolTip": "C:\\Users\\matt9\\source\\repos\\2025_12_Team2\\MatthewBakken\\Python.gitignore",
+              "RelativeToolTip": "Python.gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-12-15T02:12:38.835Z",
+              "EditorCaption": ""
             }
           ]
         },
