@@ -18,6 +18,8 @@ app.mount("/static", StaticFiles(directory="static"), name ="static")
 
 local_cart =[]
 
+# real API call to best buy
+#needed dependency libary is httpx
 def search_bestbuy_mock(query: str):
     return [
         {
