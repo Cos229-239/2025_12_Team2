@@ -65,6 +65,21 @@ async def login(
     return response
 
 
+# Account creation code
+@app.get("/creation", response_class=HTMLResponse)
+async def creation(request: Request):
+    return templates.TemplateResponse("creation.html", {"request": request})
+
+@app.post("/creation")
+async def createProfile(
+    username: str = Form(...),
+    password: str = Form(...),
+    confirm_password:  str = Form(...)    
+    ):
+
+    # Redirect to profile page after "login".
+    return RedirectResponse(url="/profile", status_code=303)
+
 @app.get("/profile", response_class=HTMLResponse)
 async def profile(request: Request):
     # Dummy profile data
