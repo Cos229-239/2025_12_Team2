@@ -232,3 +232,14 @@ async def view_cart(request: Request):
             "items": local_cart
         }
     )
+
+@app.get("/purchase", response_class=HTMLResponse)
+async def view_purchase(request: Request):
+    return templates.TemplateResponse(
+        "purchase.html",
+        {
+            "request": request,
+            "items": local_cart
+        }
+    )
+

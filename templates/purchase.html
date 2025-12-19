@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Your Cart</h2>
+<h2>Review & Purchase</h2>
 
 {% if items and items|length > 0 %}
 <ul>
@@ -15,9 +15,8 @@
     {% endfor %}
 </ul>
 <form method="get" action="/purchase">
-    <button type="submit">Checkout</button>
+    <button type="submit">Comfirm</button>
 </form>
-
 
 {% else %}
 <p>Your cart is empty.</p>
