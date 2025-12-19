@@ -81,6 +81,13 @@ async def profile(request: Request):
         }
     )
 
+# Attempt at friend HTML page.
+@app.get("/friends", response_class=HTMLResponse)
+async def friends(request: Request):
+    return templates.TemplateResponse("friends.html", {"request": request})
+    # Dummy friends profile data
+   
+
 
 @app.get("/search", response_class=HTMLResponse)
 async def search_games_page(request: Request, q: str | None = None):
