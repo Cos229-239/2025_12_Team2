@@ -33,14 +33,14 @@ async def search_bestbuy(query: str, page_size: int = 50):
 
     q = quote(query)
     tokens = [t for t in query.split() if t]
-                 # working filter for category search
-    # criteria = "(categoryPath.id=cat00000&(" + "&".join([f"search={quote(t)}" for t in tokens]) + "))"
+                 # working filter for category search --- cat000000 might just be best buy products only? "sold by best buy"
+    #criteria = "(categoryPath.id=cat00000&(" + "&".join([f"search={quote(t)}" for t in tokens]) + "))"
 
                 #original multi word searching
-    #criteria = "(" + "&".join([f"search={quote(t)}" for t in tokens]) + ")"
+    criteria = "(" + "&".join([f"search={quote(t)}" for t in tokens]) + ")"
     
 
-                # not functional
+                # not functional -- pcmat found 
     #criteria = "(categoryPath.id=pcmcat1497456762821(" + "&".join([f"search={quote(t)}" for t in tokens]) + "))"
     #pcmcat1497456762821
     #criteria = "(subCategories.id=pcmcat1497456762821(" + "&".join([f"search={quote(t)}" for t in tokens]) + "))"
@@ -52,7 +52,7 @@ async def search_bestbuy(query: str, page_size: int = 50):
         "format": "json",
         # "category": "*video game",
         "show": "sku,name,salePrice,regularPrice,url,image,thumbnailImage,addToCartUrl",
-        "pageSize": min(max(page_size, 1), 100),
+        "pageSize": min(max(page_size, 1), 5),
         "sort": "salePrice.asc",
     }
 
