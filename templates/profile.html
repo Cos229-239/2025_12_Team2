@@ -1,7 +1,50 @@
 {% extends "base.html" %}
 
+<!--
+Elements needed for profile:
+    -Profile tab
+        -User name
+        -Profile image
+    -Setting tab
+        -Change Username
+        -Change Password
+    -Finacial/Payment history tab
+        -Account history
+        -Purchases
+    -Friends tab
+        -Mail
+        -Messages
+        -Gifts
+
+    Profile layout:
+        -Profile image & username on topleft.
+        -Tabs on left column
+        -Sub choices to the right of selected tab. Center screen-ish.
+
+-->
 {% block content %}
 <h2>Profile</h2>
+
+<!--
+    Vertical tab menu
+
+    <nav>
+    <li><a href="/profile">Profile</a></li>
+    <li><a href="/friends">Friends</a></li>
+    <li><a href="/setting">Setting</a></li>
+    <li><a href="/payment history">Payment History</a></li>
+</nav>-->
+
+<!--Horizontal tab menu-->
+<nav>
+    <a href="/profile">Profile</a>
+    <a href="/friends">Friends</a>
+    <a href="/setting">Setting</a>
+    <a href="/payment history">Payment History</a>
+</nav>
+
+
+
 <p><strong>Username:</strong> {{ profile.username }}</p>
 <p><strong>Display Name:</strong> {{ profile.display_name }}</p>
 <p><strong>Favorite Platform:</strong> {{ profile.favorite_platform }}</p>
