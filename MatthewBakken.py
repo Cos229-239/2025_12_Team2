@@ -74,7 +74,10 @@ async def creation(request: Request):
 async def createProfile(
     username: str = Form(...),
     password: str = Form(...),
-    confirm_password:  str = Form(...)    
+    confirm_password:  str = Form(...)
+    #file = open("/db/userAccounts", "r+")
+    #users_list = {}
+    #file.close()
     ):
 
     # Redirect to profile page after "login".
