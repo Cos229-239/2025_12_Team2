@@ -1,10 +1,44 @@
+from asyncio.windows_events import NULL
 import os
+import bcrypt
+import hashlib # helps to write hash to text file
+from typing import Annotated, Optional
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import httpx # for api call
 from urllib.parse import quote
+
+class pasCatch: # used for user account checking
+    def __init__(self, name, password):
+        self.name = name
+        self.password = password
+
+def hash_password(password):
+    # hash the passwored for the first time, salt is automatically generated
+    data_bytes = password.encode('utf-8')
+    hash_object = hashlib.sha256(data_bytes)
+    hashed_password = hash_object.hexdigest()
+    #hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_password
+
+def check_password(password, hashed_password):
+    # Check the entered password against the stored hash
+    entered_password = hash_password(password)
+    if entered_password == hashed_password:
+        return True
+    else:
+        return False
+    #return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+
+user_list = [] # Python list of user accounts
+
+def update_user_list():
+    with open("db/userAccounts.txt", "r") as file:
+        for line in file:
+            temp_list = line.split() # Split each line into temp list
+            user_list.append(pasCatch(temp_list[0], temp_list[1]))
 
 # FastAPI app configuration#
 
@@ -52,7 +86,7 @@ async def search_bestbuy(query: str, page_size: int = 50):
         "format": "json",
         # "category": "*video game",
         "show": "sku,name,salePrice,regularPrice,url,image,thumbnailImage,addToCartUrl",
-        "pageSize": min(max(page_size, 1), 5),
+        "pageSize": min(max(page_size, 1), 25),
         "sort": "salePrice.asc",
     }
 
@@ -124,34 +158,74 @@ async def home(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 
+update_user_list()
+
 @app.post("/login")
 async def login(
-    username: str = Form(...),
-    password: str = Form(...)
-):
+    # The setup below allows for username and password to be blank
+    username: Optional[str] = Form(None), 
+    password: Optional[str] = Form(None)
+    ):
+    # Checks input username and password against existing list
+    doesExist = False
+    for obj in user_list:
+        if obj.name == username and obj.password == password:
+            doesExist = True
 
-    # Redirect to profile page after "login".
-    response = RedirectResponse(url="/profile", status_code=303)
+    if doesExist:
+        # Successful login
+        response = RedirectResponse(url="/profile", status_code=303)
+    else:
+        # Unsuccessful login
+        response = RedirectResponse(url="/invalidLogin", status_code=303)
     return response
 
+@app.get("/invalidLogin", response_class=HTMLResponse)
+async def invalidLogin(request: Request):
+    return templates.TemplateResponse("invalidLogin.html", {"request": request})
 
-# Account creation code
+
 @app.get("/creation", response_class=HTMLResponse)
 async def creation(request: Request):
     return templates.TemplateResponse("creation.html", {"request": request})
 
+
 @app.post("/creation")
 async def createProfile(
-    username: str = Form(...),
+    username: str = Form(...),# hash the password?
     password: str = Form(...),
     confirm_password:  str = Form(...)
-    #file = open("/db/userAccounts", "r+")
-    #users_list = {}
-    #file.close()
     ):
+    alreadyExists = False
+    for obj in user_list:
+        if obj.name == username:
+            # User already exists
+            alreadyExists = True
 
+    if alreadyExists:
+        result = RedirectResponse(url="/usernameTaken", status_code=303)
+    elif confirm_password != password or password == "":
+        result = RedirectResponse(url="/passwordNotMatch", status_code=303)
+    else:
+        #hashedPassword = hash_password(password) # calls function to hash the password
+        result = RedirectResponse(url="/profile", status_code=303)
+        # Write new username and password to userAccounts file
+        with open("db/userAccounts.txt", "a") as file:
+            file.write("\n" + username + " " + password)
+        update_user_list() # Update system list with new user
+    
     # Redirect to profile page after "login".
-    return RedirectResponse(url="/profile", status_code=303)
+    return result
+
+
+@app.get("/usernameTaken", response_class=HTMLResponse)
+async def usernameTaken(request: Request):
+    return templates.TemplateResponse("usernameTaken.html", {"request": request})
+
+@app.get("/passwordNotMatch", response_class=HTMLResponse)
+async def passwordNotMatch(request: Request):
+    return templates.TemplateResponse("passwordNotMatch.html", {"request": request})
+
 
 @app.get("/profile", response_class=HTMLResponse)
 async def profile(request: Request):
