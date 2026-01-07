@@ -11,12 +11,28 @@
         ({{ item.retailer }}) -
         ${{ "%.2f"|format(item.price) }}
         [<a href="{{ item.product_url }}" target="_blank">Open on retailer site</a>]
+        <hr>
     </li>
     {% endfor %}
+
 </ul>
+
+
+<label for="Payment-type">Payment Method</label>
+<select name="payment" id="payment" required>
+    <option value="">-- select --</option>
+    <option value="Credit">Credit</option>
+    <option value="Debit">Debit</option>
+</select>
+<br />
+
+<hr />
+<p><strong>Total Cost:</strong> ${{ '%.2f' % (items | map(attribute='price') | sum) }}</p>
+
 <form method="get" action="/purchase">
     <button type="submit">Comfirm</button>
 </form>
+
 
 {% else %}
 <p>Your cart is empty.</p>
