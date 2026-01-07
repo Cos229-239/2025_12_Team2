@@ -1,0 +1,24 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body class="blended-background">
+    <div class="bg-img">
+        <form method="post" action="/login" class="container">
+            {% extends "base.html" %}
+
+            {% block content %}
+            <label>
+                Username:
+                <input type="text" name="username" />
+            </label><br />
+            <label>
+                Password:
+                <input type="password" name="password" />
+            </label><br />
+            <button type="submit" class="btn">Login</button>
+            <label style="color:red">Invalid username or password!</label><br />
+            <a href="/creation">Create Account</a>
+        </form>
+        {% endblock %}
+    </div>
+</body>
