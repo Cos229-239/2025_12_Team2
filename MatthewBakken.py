@@ -1,8 +1,7 @@
 from asyncio.windows_events import NULL
 import os
-import bcrypt
-import hashlib # helps to write hash to text file
-from typing import Annotated, Optional
+from argon2 import PasswordHasher # used for hashing password for protection
+from typing import Annotated, Optional # used for username and password inputs
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -15,22 +14,7 @@ class pasCatch: # used for user account checking
         self.name = name
         self.password = password
 
-def hash_password(password):
-    # hash the passwored for the first time, salt is automatically generated
-    data_bytes = password.encode('utf-8')
-    hash_object = hashlib.sha256(data_bytes)
-    hashed_password = hash_object.hexdigest()
-    #hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    return hashed_password
-
-def check_password(password, hashed_password):
-    # Check the entered password against the stored hash
-    entered_password = hash_password(password)
-    if entered_password == hashed_password:
-        return True
-    else:
-        return False
-    #return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+hasher = PasswordHasher() # Instantiation needed for hasher to work, cannot just use PasswordHasher
 
 user_list = [] # Python list of user accounts
 
@@ -169,7 +153,7 @@ async def login(
     # Checks input username and password against existing list
     doesExist = False
     for obj in user_list:
-        if obj.name == username and obj.password == password:
+        if obj.name == username and hasher.verify(obj.password, password):
             doesExist = True
 
     if doesExist:
@@ -192,13 +176,13 @@ async def creation(request: Request):
 
 @app.post("/creation")
 async def createProfile(
-    username: str = Form(...),# hash the password?
+    username: str = Form(...),
     password: str = Form(...),
     confirm_password:  str = Form(...)
     ):
     alreadyExists = False
     for obj in user_list:
-        if obj.name == username:
+        if obj.name == username: # checks against hashed list
             # User already exists
             alreadyExists = True
 
@@ -207,11 +191,12 @@ async def createProfile(
     elif confirm_password != password or password == "":
         result = RedirectResponse(url="/passwordNotMatch", status_code=303)
     else:
-        #hashedPassword = hash_password(password) # calls function to hash the password
+        hashedPassword = hasher.hash(password) # hashes password with Argon2 PasswordHasher
+        #hashedUsername = hasher.hash(username)
         result = RedirectResponse(url="/profile", status_code=303)
         # Write new username and password to userAccounts file
         with open("db/userAccounts.txt", "a") as file:
-            file.write("\n" + username + " " + password)
+            file.write("\n" + username + " " + hashedPassword)
         update_user_list() # Update system list with new user
     
     # Redirect to profile page after "login".
