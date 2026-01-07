@@ -27,7 +27,7 @@
 <br />
 
 <hr />
-<p><strong>Total Cost:</strong> ${{ '%.2f' % (items | map(attribute='price') | sum) }}</p>
+<p><strong>Total Cost:</strong> ${{ '%.2f' % (items | map(attribute='price') | sum) }}</p> 
 
 <form method="get" action="/purchase">
     <button type="submit">Comfirm</button>
