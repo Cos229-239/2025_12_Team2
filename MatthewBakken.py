@@ -233,6 +233,18 @@ async def profile(request: Request):
 async def friends(request: Request):
     return templates.TemplateResponse("friends.html", {"request": request})
     # Dummy friends profile data
+
+# Attempt at settings HTML page.
+@app.get("/setting", response_class=HTMLResponse)
+async def setting(request: Request):
+    return templates.TemplateResponse("setting.html", {"request": request})
+# Dummy Setting profile data
+
+# Attempt at paymentHistory HTML page.
+@app.get("/paymenthistory", response_class=HTMLResponse)
+async def paymenthistory(request: Request):
+    return templates.TemplateResponse("paymenthistory.html", {"request": request})
+# Dummy paymenthistory profile data
    
 
 

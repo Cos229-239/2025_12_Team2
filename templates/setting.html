@@ -1,0 +1,49 @@
+﻿{% extends "base.html" %}
+<!--
+    -Setting tab
+        -Update Username
+        -Update Password
+        -two factor authentication
+        -Privacy Setting
+        -Notification Setting
+        -Linked Accounts
+        -Delete Account
+        -Logout
+        -Help & Support
+        -About
+        -Legal
+        -Language
+        -Theme
+        -Accessibility
+        -Data & Storage
+        -Payment Methods
+        -Subscriptions
+        -Billing Information
+        -Order History
+        -Refunds
+        -Gift Cards
+-->
+{% block content %}
+<!--PlaceHolder for user profile name-->
+<h2>Demo_User_SettingTab</h2>
+
+<nav>
+    <a href="/profile">Profile</a>
+    <a href="/friends">Friends</a>
+    <a href="/setting">Setting</a>
+    <a href="/paymenthistory">Payment History</a>
+</nav>
+
+<p>--------------------------------------</p>
+
+<nav>
+    <a href="/mail">Mail</a>
+    <a href="/friendsOnline">FriendsOnline</a>
+    <a href="/messages">Messages</a>
+    <a href="/gifts">Gifts</a>
+</nav>
+
+
+
+<p>Test prase.</p>
+{% endblock %}
