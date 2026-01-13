@@ -1,8 +1,9 @@
 from asyncio.windows_events import NULL
 import os
 from argon2 import PasswordHasher # used for hashing password for protection
+from argon2 import exceptions # used for incorrect password or username entry
 from typing import Annotated, Optional # used for username and password inputs
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -137,9 +138,9 @@ def search_target_mock(query: str):
 # --- Routes / pages ---
 
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
+async def home(request: Request, error: str = None):
     # Just show login as the "home" page
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse("login.html", {"request": request, "error": error})
 
 
 update_user_list()
@@ -151,35 +152,34 @@ async def login(
     password: Optional[str] = Form(None)
     ):
     # Checks input username and password against existing list
-    doesExist = False
-    for obj in user_list:
-        if obj.name == username and hasher.verify(obj.password, password):
-            doesExist = True
-
-    if doesExist:
-        # Successful login
-        response = RedirectResponse(url="/profile", status_code=303)
-    else:
-        # Unsuccessful login
-        response = RedirectResponse(url="/invalidLogin", status_code=303)
-    return response
-
-@app.get("/invalidLogin", response_class=HTMLResponse)
-async def invalidLogin(request: Request):
-    return templates.TemplateResponse("invalidLogin.html", {"request": request})
+    try:
+        # Successful Login
+        for obj in user_list:
+            if obj.name == username and hasher.verify(obj.password, password):
+                return RedirectResponse(url="/profile", status_code=303)
+    except exceptions.VerifyMismatchError:
+        # Unsuccessful Login
+        error_message = "Invalid username or password!"
+        return RedirectResponse(url=f"/?error={error_message}", status_code=status.HTTP_303_SEE_OTHER)
+    if username == None or password == None:
+        # Login pressed with no username/password
+        error_message = "Please enter username and password!"
+        return RedirectResponse(url=f"/?error={error_message}", status_code=status.HTTP_303_SEE_OTHER)
 
 
 @app.get("/creation", response_class=HTMLResponse)
-async def creation(request: Request):
-    return templates.TemplateResponse("creation.html", {"request": request})
+async def creation(request: Request, error: str = None):
+    return templates.TemplateResponse("creation.html", {"request": request, "error": error})
 
 
 @app.post("/creation")
 async def createProfile(
-    username: str = Form(...),
-    password: str = Form(...),
-    confirm_password:  str = Form(...)
+    request: Request,
+    username: Optional[str] = Form(None),
+    password: Optional[str] = Form(None),
+    confirm_password:  Optional[str] = Form(None)
     ):
+    error_message = None
     alreadyExists = False
     for obj in user_list:
         if obj.name == username: # checks against hashed list
@@ -187,12 +187,19 @@ async def createProfile(
             alreadyExists = True
 
     if alreadyExists:
-        result = RedirectResponse(url="/usernameTaken", status_code=303)
+        # Username taken, refresh page with error message
+        error_message = "Username taken!"
+        result = templates.TemplateResponse("creation.html", {"request": request, "error1": error_message})
     elif confirm_password != password or password == "":
-        result = RedirectResponse(url="/passwordNotMatch", status_code=303)
+        # Passwords don't match, refresh page with error message
+        error_message = "Passwords do not match!"
+        result = templates.TemplateResponse("creation.html", {"request": request, "error2": error_message})
+    elif username == None or (password == None and confirm_password == None):
+        # Login pressed with no username/password
+        error_message = "Please enter username and password!"
+        result = templates.TemplateResponse("creation.html", {"request": request, "error2": error_message})
     else:
         hashedPassword = hasher.hash(password) # hashes password with Argon2 PasswordHasher
-        #hashedUsername = hasher.hash(username)
         result = RedirectResponse(url="/profile", status_code=303)
         # Write new username and password to userAccounts file
         with open("db/userAccounts.txt", "a") as file:
@@ -201,15 +208,6 @@ async def createProfile(
     
     # Redirect to profile page after "login".
     return result
-
-
-@app.get("/usernameTaken", response_class=HTMLResponse)
-async def usernameTaken(request: Request):
-    return templates.TemplateResponse("usernameTaken.html", {"request": request})
-
-@app.get("/passwordNotMatch", response_class=HTMLResponse)
-async def passwordNotMatch(request: Request):
-    return templates.TemplateResponse("passwordNotMatch.html", {"request": request})
 
 
 @app.get("/profile", response_class=HTMLResponse)
