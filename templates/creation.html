@@ -11,6 +11,10 @@
                 Username:
                 <input type="text" id="username" name="username" />
             </label><br />
+            <!-- Error message display area -->
+            {% if error1 %}
+            <p style="color: red;">{{ error1 }}</p>
+            {% endif %}
             <label for="password">
                 Password:
                 <input type="password" id="password" name="password" />
@@ -19,6 +23,10 @@
                 Confirm Password:
                 <input type="password" id="confirm_password" name="confirm_password" />
             </label><br />
+            <!-- Error message display area -->
+            {% if error2 %}
+            <p style="color: red;">{{ error2 }}</p>
+            {% endif %}
             <button type="submit" class="btn">Login</button>
         </form>
         {% endblock %}
