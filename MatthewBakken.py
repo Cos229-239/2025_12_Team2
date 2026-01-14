@@ -43,7 +43,7 @@ local_cart =[]
 BESTBUY_API_KEY = os.getenv("BESTBUY_API_KEY")
 print("BESTBUY_API_KEY present:", bool(BESTBUY_API_KEY)) # checking if the api key was working, can remove later
 
-async def search_bestbuy(query: str, page_size: int = 50):
+async def search_bestbuy(query: str, page_size: int = 100):
     api_key = os.getenv("BESTBUY_API_KEY")
     if not api_key:
         print("BB: missing api key")
@@ -51,26 +51,18 @@ async def search_bestbuy(query: str, page_size: int = 50):
 
     q = quote(query)
     tokens = [t for t in query.split() if t]
-                 # working filter for category search --- cat000000 might just be best buy products only? "sold by best buy"
-    #criteria = "(categoryPath.id=cat00000&(" + "&".join([f"search={quote(t)}" for t in tokens]) + "))"
 
-                #original multi word searching
-    criteria = "(" + "&".join([f"search={quote(t)}" for t in tokens]) + ")"
-    
-
-                # not functional -- pcmat found 
-    #criteria = "(categoryPath.id=pcmcat1497456762821(" + "&".join([f"search={quote(t)}" for t in tokens]) + "))"
-    #pcmcat1497456762821
-    #criteria = "(subCategories.id=pcmcat1497456762821(" + "&".join([f"search={quote(t)}" for t in tokens]) + "))"
+    category_id = "pcmcat1497456762821" #digital gaming best buy category
+    search_filter = "&".join([f"search={quote(t)}" for t in tokens]) if tokens else "search=*"
+    criteria = f"((categoryPath.id={category_id})&({search_filter}))" #includes regular search filter and category id to force digital gaming search
 
     url = f"https://api.bestbuy.com/v1/products{criteria}"
 
     params = {
         "apiKey": BESTBUY_API_KEY,
         "format": "json",
-        # "category": "*video game",
         "show": "sku,name,salePrice,regularPrice,url,image,thumbnailImage,addToCartUrl",
-        "pageSize": min(max(page_size, 1), 25),
+        "pageSize": min(max(page_size, 1), 100),
         "sort": "salePrice.asc",
     }
 
