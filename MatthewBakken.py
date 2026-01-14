@@ -296,15 +296,6 @@ async def search_games_page(request: Request, q: str | None = None):
     if q:
        results = await search_bestbuy_and_steam(q, page_size_bestbuy=25, page_size_steam=25)
 
-
-    #if q:
-        #bb_results = await search_bestbuy(q)
-       # print("BB results:", len(bb_results))
-        #steam_results = await search_steam(q)
-        #print("Steam results:", len(steam_results))
-       # results = bb_results + steam_results
-
-
     return templates.TemplateResponse(
         "search.html",
         {
