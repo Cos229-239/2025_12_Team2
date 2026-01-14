@@ -1,3 +1,4 @@
+from ast import Store
 from asyncio.windows_events import NULL
 import os
 from argon2 import PasswordHasher # used for hashing password for protection
@@ -94,19 +95,58 @@ async def search_bestbuy(query: str, page_size: int = 100):
     return results
 
 
-#MOCK SEARCH
-# def search_bestbuy_mock(query: str):
-#     return [
-#         {
-#             "title": f"{query} (Best Buy Edition)",
-#             "platform": "PS5",
-#             "price": 59.99,
-#             "retailer": "Best Buy",
-#             "product_url": "https://www.bestbuy.com/site/example",
-#             "thumbnail_url": "https://via.placeholder.com/150",
-#             "sku": "BB123"
-#         }
-#     ]
+async def search_steam(query: str, page_size: int = 100, cc:str = "us", lang: str = "english"):
+    term = query.strip()
+    if not term:
+        return[]
+
+    count = min(max(page_size,1),25)
+
+    url = "https://store.steampowered.com/api/storesearch/"
+    params = {
+        "term":term,
+        "l": lang,
+        "cc": cc,
+        "page": 1,
+        "count":count,
+    }
+
+    timeout = httpx.Timeout(10.0, connect = 5.0)
+
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        resp = await client.get(url, params = params)
+        print("Steam request:", resp.request.url) #debug
+        print ("Steam status:", resp.status_code) #debug
+        resp.raise_for_status()
+        data = resp.json()
+
+    items = data.get("items", []) or []
+
+    results = []
+    for it in items:
+        appid= it.get("id")
+        title= it.get("name") or "Unknown"
+        store_url = f"https://store.steampowered.com/app/{appid}/" if appid else ""
+
+        price = None
+        price_obj = it.get("price")
+        if isinstance(price_obj, dict):
+            final_cents = price_obj.get("final")
+            price = final_cents / 100.0
+
+        thumb= it.get("tiny_image") or ""
+
+        results.append(
+            {
+                "title": title,
+                "price": price,
+                "sku": str(appid or ""),
+                "retailer": "Steam",
+                "product_url": store_url,
+                "thumbnail_url": thumb,
+                }          
+        )
+    return results
 
 
 
