@@ -1,40 +1,61 @@
-{% extends "base.html" %}
+<body class="background_purchase">
+    <div class="content_box">
 
-{% block content %}
-<h2>Review & Purchase</h2>
+        {% extends "base.html" %}
 
-{% if items and items|length > 0 %}
-<ul>
-    {% for item in items %}
-    <li>
-        <strong>{{ item.title }}</strong>
-        ({{ item.retailer }}) -
-        ${{ "%.2f"|format(item.price) }}
-        [<a href="{{ item.product_url }}" target="_blank">Open on retailer site</a>]
-        <hr>
-    </li>
-    {% endfor %}
+        {% block content %}
 
-</ul>
+        <font color="#f0f0f0">
+            <center><h2>Review & Purchase</h2></center>
 
+            {% if items and items|length > 0 %}
+            <ul>
+                {% for item in items %}
+                <li>
 
-<label for="Payment-type">Payment Method</label>
-<select name="payment" id="payment" required>
-    <option value="">-- select --</option>
-    <option value="Credit">Credit</option>
-    <option value="Debit">Debit</option>
-</select>
-<br />
-
-<hr />
-<p><strong>Total Cost:</strong> ${{ '%.2f' % (items | map(attribute='price') | sum) }}</p> 
-
-<form method="get" action="/purchase">
-    <button type="submit">Comfirm</button>
-</form>
+                    <strong>{{ item.title }}</strong>
+                    ({{ item.retailer }}) -
+                    ${{ "%.2f"|format(item.price) }}
+                    [<a href="{{ item.product_url }}" target="_blank">Open on retailer site</a>]
 
 
-{% else %}
-<p>Your cart is empty.</p>
-{% endif %}
-{% endblock %}
+                </li>
+                {% endfor %}
+            </ul>
+            <hr />  <!-- adds line-->
+
+            <center>
+                <h2><label for="Payment-type">Payment Method</label></h2>
+                <div style="display:flex; justify-content:flex-start; gap:10px; align-items:center; width:100%;">
+                    <form method="get" action="/Credit" style="margin:0;">
+                        <button type="submit">Credit</button>
+                    </form>
+
+                    <form method="get" action="/Debit" style="margin:0;">
+                        <button type="submit">Debit</button>
+                    </form>
+                </div>
+            </center>
+            <br />
+            <hr /> 
+            <center><h2>Saved Payment Methods</h2></center>
+            <hr />
+            <p><strong>Total Cost:</strong> ${{ '%.2f' % (items | map(attribute='price') | sum) }}</p>
+            <hr/>
+            <!--grabs price in each item
+    #Grabs price by using map(attrubute='price') -->
+            <form method="get" action="/purchase">
+                <button type="submit">Comfirm</button>
+            </form>
+
+
+
+            {% else %}
+            <p>Your cart is empty.</p>
+
+        </font>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+</body>
