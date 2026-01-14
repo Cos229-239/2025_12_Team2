@@ -1,32 +1,27 @@
 ﻿<body class="blended-background">
-{% extends "base.html" %}
-<!--
-    -Friends tab
-        -Mail
-        -Messages
-        -Gifts
--->
-{% block content %}
-<!--PlaceHolder for user profile name-->
-<h2>Demo_User_FriendsTab</h2>
+    {% extends "base.html" %}
+    <!--
+        -Friends tab
+            -Mail
+            -Messages
+            -Gifts
+    -->
+    {% block content %}
+    <!--PlaceHolder for user profile name-->
+    <h2>Demo_User_FriendsTab</h2>
 
-<nav>
-    <a href="/profile">Profile</a>
-    <a href="/friends">Friends</a>
-    <a href="/setting">Setting</a>
-    <a href="/paymenthistory">Payment History</a>
-</nav>
+    <nav>
+        <a href="/profile">Profile</a>
+        <a href="/friends">Friends</a>
+        <a href="/setting">Setting</a>
+        <a href="/paymenthistory">Payment History</a>
+    </nav>
 
-<p>--------------------------------------</p>
+    <p>--------------------------------------</p>
 
-<nav>
-    <a href="/mail">Mail</a>
-    <a href="/friendsOnline">FriendsOnline</a>
-    <a href="/messages">Messages</a>
-    <a href="/gifts">Gifts</a>
-</nav>
+    <img src="/static/css/GameVault.png" alt="Friends Icon" width="100" height="100">
 
 
 
-<p>Test prase.</p>
-{% endblock %}
+    <p>Test prase.</p>
+    {% endblock %}
