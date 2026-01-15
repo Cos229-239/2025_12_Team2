@@ -1,32 +1,83 @@
 ﻿<body class="blended-background">
-{% extends "base.html" %}
-<!--
-    -Friends tab
-        -Mail
-        -Messages
-        -Gifts
--->
-{% block content %}
-<!--PlaceHolder for user profile name-->
-<h2>Demo_User_paymentHistoryTab</h2>
+    {% extends "base.html" %}
+    <!--
+        -Friends tab
+            -Mail
+            -Messages
+            -Gifts
+    -->
+    {% block content %}
+    <!--Used for styling the format of the profile img, Username, and menu.-->
+    <style type="text/css">
 
-<nav>
-    <a href="/profile">Profile</a>
-    <a href="/friends">Friends</a>
-    <a href="/setting">Setting</a>
-    <a href="/paymenthistory">Payment History</a>
-</nav>
+        .profile-card {
+            display: flex;
+            align-items: center;
+            width: 500px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
 
-<p>--------------------------------------</p>
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
 
-<nav>
-    <a href="/mail">Mail</a>
-    <a href="/friendsOnline">FriendsOnline</a>
-    <a href="/messages">Messages</a>
-    <a href="/gifts">Gifts</a>
-</nav>
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 80px; /* matches image height */
+        }
+
+        .username {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .menu-options {
+            margin-right: 30px;
+            font-size: 0.9em;
+            text-decoration: none;
+            margin-top: 50px; /* adjust this number as needed */
+        }
+    </style>
+
+    <!--Used to create the profile img, Username, and menu.-->
+    <div class="profile-card">
+
+        <img src="/static/css/GameVault.png" alt="Friends Icon" width="100" height="100">
+
+        <div class="profile-info"
+             <!--PlaceHolder for user profile name-->
+             <div class="username">Demo_User</div>
+
+             <div class="menu-options">
+
+                <!--Horizontal tab menu-->
+                <nav>
+                    <a href="/profile">Profile</a>
+                    <a href="/friends">Friends</a>
+                    <a href="/setting">Setting</a>
+                    <a href="/paymenthistory">Payment History</a>
+                </nav>
+            </div>
+            </div>
+    </div>
+    </div>
+    <p>--------------------------------------</p>
+
+    <nav>
+        <a href="/mail">Mail</a>
+        <a href="/friendsOnline">FriendsOnline</a>
+        <a href="/messages">Messages</a>
+        <a href="/gifts">Gifts</a>
+    </nav>
 
 
 
-<p>Test prase.</p>
-{% endblock %}
+    <p>Test prase.</p>
+    {% endblock %}
