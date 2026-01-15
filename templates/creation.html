@@ -5,6 +5,9 @@
     <div class="bg-img">
         <form method="post" action="/creation" class="container">
             {% extends "base.html" %}
+            <!-- Below removes navbar -->
+            {% block navbar %}
+            {% endblock %}
 
             {% block content %}
             <label for="username">
