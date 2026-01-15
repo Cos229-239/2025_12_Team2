@@ -1,57 +1,94 @@
 <body class="blended-background">
     {% extends "base.html" %}
 
-<!--
-Elements needed for profile:
-    -Profile tab _Update name later
-        -User name
-        -Profile image
-    -Setting tab
-        -Change Username
-        -Change Password
-    -Finacial/Payment history tab
-        -Account history
-        -Purchases
-    -Friends tab
-        -Mail
-        -Messages
-        -Gifts
+    <!--
+    Elements needed for profile:
+        -Profile tab _Update name later
+            -User name
+            -Profile image
+        -Setting tab
+            -Change Username
+            -Change Password
+        -Finacial/Payment history tab
+            -Account history
+            -Purchases
+        -Friends tab
+            -Mail
+            -Messages
+            -Gifts
 
-    Profile layout:
-        -Profile image & username on topleft.
-        -Tabs on left column
-        -Sub choices to the right of selected tab. Center screen-ish.
+        Profile layout:
+            -Profile image & username on topleft.
+            -Tabs on left column
+            -Sub choices to the right of selected tab. Center screen-ish.
 
--->
+    -->
+    {% block content %}
+
+    <style type="text/css">
+
+        .profile-card {
+            display: flex;
+            align-items: center;
+            width: 500px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 80px; /* matches image height */
+        }
+
+        .username {
+            font-size: 1.2em;
+            font-weight: bold; 
+        }
+
+        .menu-options {
+            margin-right: 30px;
+            font-size: 0.9em;
+            text-decoration: none;
+            margin-top: 50px; /* adjust this number as needed */
+        }
+    </style>
 
 
-{% block content %}
+    <div class="profile-card">
 
-<!--PlaceHolder for user profile name-->
-<h2>{{ profile.username }}</h2>
+        <img src="/static/css/GameVault.png" alt="Friends Icon" width="100" height="100">
 
-<!--
-    Vertical tab menu
+        <div class="profile-info"
+             <!--PlaceHolder for user profile name-->
+             <div class="username">Demo_User</div>
 
-    <nav>
-    <li><a href="/profile">Profile</a></li>
-    <li><a href="/friends">Friends</a></li>
-    <li><a href="/setting">Setting</a></li>
-    <li><a href="/payment history">Payment History</a></li>
-</nav>-->
+             <div class="menu-options">
 
-<!--Horizontal tab menu-->
-<nav>
-    <a href="/profile">Profile</a>
-    <a href="/friends">Friends</a>
-    <a href="/setting">Setting</a>
-    <a href="/paymenthistory">Payment History</a>
-</nav>
-
+                <!--Horizontal tab menu-->
+                <nav>
+                    <a href="/profile">Profile</a>
+                    <a href="/friends">Friends</a>
+                    <a href="/setting">Setting</a>
+                    <a href="/paymenthistory">Payment History</a>
+                </nav>
+            </div>
+            </div>
+        </div>
+    </div>
 
 
-<p><strong>Username:</strong> {{ profile.username }}</p>
-<p><strong>Display Name:</strong> {{ profile.display_name }}</p>
-<p><strong>Favorite Platform:</strong> {{ profile.favorite_platform }}</p>
-<p>Use the navigation above to search games or view your cart.</p>
-{% endblock %}
+    <p><strong>Username:</strong> {{ profile.username }}</p>
+    <p><strong>Display Name:</strong> {{ profile.display_name }}</p>
+    <p><strong>Favorite Platform:</strong> {{ profile.favorite_platform }}</p>
+    <p>Use the navigation above to search games or view your cart.</p>
+    {% endblock %}
