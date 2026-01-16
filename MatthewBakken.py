@@ -296,3 +296,17 @@ async def view_cart(request: Request):
             "items": local_cart
         }
     )
+
+@app.get("/purchase", response_class=HTMLResponse)
+async def view_purchase(request: Request):
+    total = sum(float(item.get("price", 0) or 0) for item in local_cart)
+    print("TOTAL =", total)
+    return templates.TemplateResponse(
+        "purchase.html",
+        {
+            "request": request,
+            "items": local_cart,
+            "total": total
+        }
+    )
+
