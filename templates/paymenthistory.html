@@ -44,6 +44,73 @@
             text-decoration: none;
             margin-top: 50px; /* adjust this number as needed */
         }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .payment-history-box {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+            .payment-history-box h2 {
+                margin-top: 0;
+                font-size: 20px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
+            }
+
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+            .payment-item:last-child {
+                border-bottom: none;
+            }
+
+        .payment-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .payment-date {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .payment-status {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .status-paid {
+            background: #e6f7e9;
+            color: #2e7d32;
+        }
+
+        .status-pending {
+            background: #fff4e5;
+            color: #f57c00;
+        }
+
+        .payment-amount {
+            font-weight: bold;
+        }
     </style>
 
     <!--Used to create the profile img, Username, and menu.-->
@@ -70,14 +137,27 @@
     </div>
     <p>--------------------------------------</p>
 
-    <nav>
-        <a href="/mail">Mail</a>
-        <a href="/friendsOnline">FriendsOnline</a>
-        <a href="/messages">Messages</a>
-        <a href="/gifts">Gifts</a>
-    </nav>
-
-
-
-    <p>Test prase.</p>
+   
+    <body>
+        <div class="payment-history-box"> 
+        <h2>Payment History</h2> 
+        <div class="payment-item"> 
+            <div class="payment-left"> 
+            <span>Invoice #1023</span> 
+            <span class="payment-date">Jan 10, 2026</span> 
+            </div> 
+            <div> <span class="payment-amount">$120.00</span>
+            <br> 
+            <span class="payment-status status-paid">Paid</span> 
+                </div> </div> <div class="payment-item"> 
+            <div class="payment-left"> 
+            <span>Invoice #1022</span> 
+            <span class="payment-date">Jan 02, 2026</span> 
+            </div> 
+            <div> <span class="payment-amount">$75.50</span>
+            <br> <span class="payment-status status-pending">Pending</span> 
+            </div> 
+                      </div> 
+        <div class="payment-item"> <div class="payment-left"> <span>Invoice #1021</span> <span class="payment-date">Dec 20, 2025</span> </div> <div> <span class="payment-amount">$49.99</span><br> <span class="payment-status status-paid">Paid</span> </div> </div> </div>
+    </body>
     {% endblock %}

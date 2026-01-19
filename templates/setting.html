@@ -65,6 +65,50 @@
             margin-top: 50px; /* adjust this number as needed */
         }
 
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Left menu */
+        .menu {
+            width: 220px;
+            background: #f4f4f4;
+            border-right: 1px solid #ccc;
+            padding: 20px 0;
+        }
+
+        .menu a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+             background: #ddd;
+        }
+
+        /* Right content area */
+        .content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+                display: block;
+        }
+
     </style>
 
     <!--Used to create the profile img, Username, and menu.-->
@@ -91,5 +135,40 @@
     </div>
 </head>
 
+<body>
+
+    <div class="container"> 
+
+            <div class="menu"> 
+                <a class="active" onclick="showPanel('general')">General</a> 
+                <a onclick="showPanel('privacy')">Privacy</a> 
+                <a onclick="showPanel('notifications')">Notifications</a> 
+                <a onclick="showPanel('account')">Account</a> 
+            </div> 
+        
+        <div class="content"> 
+            <div id="general" class="panel active"> 
+                <h2>General Settings</h2> 
+                <p>Adjust language, theme, and basic preferences.</p> 
+            </div> 
+
+            <div id="privacy" class="panel"> 
+                <h2>Privacy Settings</h2> 
+                <p>Manage data sharing and visibility options.</p> 
+            </div> 
+        
+            <div id="notifications" class="panel"> 
+                <h2>Notification Settings</h2> 
+                <p>Choose how you receive alerts.</p> 
+            </div> 
+        
+            <div id="account" class="panel"> 
+                <h2>Account Settings</h2> 
+                <p>Update your email, password, and profile info.</p> 
+            </div> 
+        </div> 
+    </div>
+        <script>function showPanel(id) </script>
+</body>
 
 {% endblock %}
