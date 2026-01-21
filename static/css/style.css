@@ -101,3 +101,88 @@ body.background_purchase {
     padding: 20px;
     border-radius: 12px;
 }
+
+a:link {
+    color: lightpink;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:visited {
+    color: hotpink;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+
+.purchase {
+    background-color: #39BC67;
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+    .purchase:hover {
+        background-color: #015838;
+        box-shadow: 0 8px 16px 0 #39BC67
+    }
+
+.Credit {
+    background-color: rgba(0,0,0,0.42);
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+    .Credit:hover {
+        background-color: rgba(0,0,0,0.42);
+        box-shadow: 0 8px 16px 0 #f956e2;
+    }
+
+.Debit {
+    background-color: rgba(0,0,0,0.42);
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+    .Debit:hover {
+        background-color: rgba(0,0,0,0.42);
+        box-shadow: 0 8px 16px 0 #f956e2;
+    }
+
+.gift {
+    background-color: #686868;
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+    .gift:hover {
+        background-color: #525252;
+        box-shadow: 0 8px 16px 0 white;
+    }
