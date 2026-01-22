@@ -5,6 +5,7 @@ from argon2 import PasswordHasher # used for hashing password for protection
 from argon2 import exceptions # used for incorrect password or username entry
 from typing import Annotated, Optional # used for username and password inputs
 from fastapi import FastAPI, Query, Request, Form, status
+from fastapi.background import P
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -65,7 +66,7 @@ async def search_bestbuy(query: str, page_size: int = 100):
     params = {
         "apiKey": BESTBUY_API_KEY,
         "format": "json",
-        "show": "sku,name,salePrice,regularPrice,url,image,thumbnailImage,addToCartUrl",
+        "show": "sku,name,salePrice,regularPrice,url,image,thumbnailImage,addToCartUrl,platform",
         "pageSize": min(max(page_size, 1), 100),
         "sort": "salePrice.asc",
     }
@@ -84,12 +85,29 @@ async def search_bestbuy(query: str, page_size: int = 100):
 
     results = []
     for p in products:
+        platform_value = p.get("platform")
+
+        if not platform_value:
+            name = (p.get("name") or "").lower()
+            if "pc" in name:
+                platform_value = "PC"
+            elif "xbox" in name:
+                platform_value = "Xbox"
+            elif "playstation" in name or "ps5" in name or "ps4" in name:
+                platform_value = "PlayStation"
+            elif "nintendo switch" in name or "switch" in name:
+                platform_value = "Nintento Switch"
+            else:
+                platform_value = "-"
+
+
         results.append(
             {
                 "title": p.get("name") or "Unknown",
                 "price": p.get("salePrice"),
                 "sku": str(p.get("sku") or ""),
                 "retailer": "Best Buy",
+                "platform":platform_value,
                 "product_url": p.get("url") or "",
                 "thumbnail_url": p.get("thumbnailImage") or p.get("image") or "",
             }
@@ -159,6 +177,7 @@ async def search_steam(query: str, page_size: int = 100, cc:str = "us", lang: st
                 "price": price,
                 "sku": str(appid or ""),
                 "retailer": "Steam",
+                "platform":"PC",
                 "product_url": store_url,
                 "thumbnail_url": thumb,
                 }          

@@ -24,7 +24,7 @@
         {% for item in results %}
             <tr>
                 <td>{{ item.title }}</td>
-                <td>{{ item.platform }}</td>
+                <td>{{ item.platform if item.platform is defined and item.platform else "-"}}</td>
                 <td>{{ item.retailer }}</td>
                 <td>{% if item.price is not none %}
                         ${{ "%.2f"|format(item.price) }}
