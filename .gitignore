@@ -58,3 +58,5 @@ htmlcov/
 # =========================
 .DS_Store
 Thumbs.db
+UpgradeLog*.htm
+_LOCAL_UNPUSHED_PATCH.txt

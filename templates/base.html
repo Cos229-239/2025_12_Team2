@@ -6,16 +6,17 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Game Vault</h1>
-        {% block navbar %}
-        <nav>
-            <a href="/profile">Profile</a>
-            <a href="/search">Search Games</a>
-            <a href="/cart">Cart</a>
-        </nav>
-        {% endblock %}
-    </header>
+<header>
+    <center><h1>Game Vault</h1></center>
+    {% block navbar %}
+    <nav>
+        <a href="/profile">Profile</a>
+        <a href="/search">Search Games</a>
+        <a href="/cart">Cart</a>
+        <a href="/purchase">purchase</a>
+    </nav>
+    {% endblock %}
+</header>
 <hr>
 <main>
     {% block content %}{% endblock %}
