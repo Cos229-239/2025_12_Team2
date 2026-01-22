@@ -41,8 +41,33 @@
                         {{ item.title }}
                     </a>
                 </td>
-                <td>{{ item.title }}</td>
+                {% if 'Xbox' in item.platform %}
+                <td>
+                    <img src="static\css\Xbox_logo.png"
+                         style="width:72px; height:72px; object-fit:cover; border-radius:8px;"
+                         loading="lazy" />
+                </td>
+                {% elif item.platform == 'PC' %}
+                <td>
+                    <img src="static\css\Steam_logo.png"
+                         style="width:72px; height:72px; object-fit:cover; border-radius:8px;"
+                         loading="lazy" />
+                </td>
+                {% elif 'PlayStation' in item.platform %}
+                <td>
+                    <img src="static\css\Playstation_logo.png"
+                         style="width:72px; height:72px; object-fit:cover; border-radius:8px;"
+                         loading="lazy" />
+                </td>
+                {% elif 'Switch' in item.platform %}
+                <td>
+                    <img src="static\css\Nintendo_Switch_logo.png"
+                         style="width:72px; height:72px; object-fit:cover; border-radius:8px;"
+                         loading="lazy" />
+                </td>
+                {% else %}
                 <td>{{ item.platform if item.platform is defined and item.platform else "-"}}</td>
+                {% endif %}
                 <td>{{ item.retailer }}</td>
                 <td>
                     {% if item.price is not none %}
