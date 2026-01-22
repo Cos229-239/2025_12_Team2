@@ -41,6 +41,10 @@
     <Folder Include="templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="static\css\Nintendo_Switch_logo.png" />
+    <Content Include="static\css\Playstation_logo.png" />
+    <Content Include="static\css\Steam_logo.png" />
+    <Content Include="static\css\Xbox_logo.png" />
     <Content Include="templates\friends.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

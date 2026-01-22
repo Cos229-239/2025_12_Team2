@@ -5,6 +5,9 @@
     <div class="bg-img">
         <form method="post" action="/login" class="container">
             {% extends "base.html" %}
+            <!-- Below removes navbar -->
+            {% block navbar %}
+            {% endblock %}
 
             {% block content %}
             <label>
@@ -15,8 +18,14 @@
                 Password:
                 <input type="password" name="password" />
             </label><br />
+            <!-- Error message display area -->
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+            {% endif %}
             <button type="submit" class="btn">Login</button>
-            <a href="/creation">Create Account</a>
+            <nav>
+                <a href="/creation">Create Account</a>
+            </nav>
         </form>
         {% endblock %}
     </div>
