@@ -37,7 +37,7 @@
                         <input type="hidden" name="retailer" value="{{ item.retailer }}">
                         <input type="hidden" name="title" value="{{ item.title }}">
                         <input type="hidden" name="sku" value="{{ item.sku }}">
-                        <input type="hidden" name="price" value="{{ item.price }}">
+                        <input type="hidden" name="price" value="{{ item.price if item.price is not none else '' }}">
                         <input type="hidden" name="product_url" value="{{ item.product_url }}">
                         <button type="submit">Add</button>
                     </form>

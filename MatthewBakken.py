@@ -11,6 +11,7 @@ from fastapi.templating import Jinja2Templates
 import httpx # for api call
 from urllib.parse import quote
 import asyncio
+from typing import Optional
 
 class pasCatch: # used for user account checking
     def __init__(self, name, password):
@@ -309,7 +310,7 @@ async def add_to_cart(
     retailer: str = Form(...),
     title: str = Form(...),
     sku: str = Form(...),
-    price: float = Form(...),
+    price: Optional[float] = Form(None), # update to optional to solve for steam no string/free values from crashing when adding cart. 
     product_url: str = Form(...)
 ):
     # Add item to in-memory cart

@@ -13,7 +13,11 @@
                     <input type="checkbox" name="selected" value="{{loop.index0}}" />
                     <strong>{{ item.title }}</strong>
                     ({{ item.retailer }}) -
-                    ${{ "%.2f"|format(item.price) }}
+                    {% if item.price is not none%}
+                        ${{ "%.2f"|format(item.price) }}
+                    {% else %}
+                        Free / N/A
+                    {% endif %}
                     [<a href="{{ item.product_url }}" target="_blank">Open on retailer site</a>]
                 </li>
                 {% endfor %}
