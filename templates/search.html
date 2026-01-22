@@ -13,6 +13,7 @@
     <table>
         <thead>
         <tr>
+            <th>Image</th>
             <th>Title</th>
             <th>Platform</th>
             <th>Retailer</th>
@@ -23,13 +24,31 @@
         <tbody>
         {% for item in results %}
             <tr>
+                <td style="width:90px;">
+                    {% if item.thumbnail_url %}
+                    <a href="{{ item.product_url }}" target=" = " _blank" rel=" = " noopener noreferrer">
+                        <img src="{{ item.thumbnail_url }}"
+                             alt="{{ item.title }} cover"
+                             style="width:72px; height:72px; object-fit:cover; border-radius:8px;"
+                             loading="lazy" />
+                    </a>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ item.product_url }}" target="_blank" rel="noopener noreferrer">
+                        {{ item.title }}
+                    </a>
+                </td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.platform if item.platform is defined and item.platform else "-"}}</td>
                 <td>{{ item.retailer }}</td>
-                <td>{% if item.price is not none %}
-                        ${{ "%.2f"|format(item.price) }}
+                <td>
+                    {% if item.price is not none %}
+                    ${{ "%.2f"|format(item.price) }}
                     {% else %}
-                        Free / N/A
+                    Free / N/A
                     {% endif %}
                 </td>
                 <td>
