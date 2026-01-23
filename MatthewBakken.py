@@ -356,6 +356,13 @@ async def view_cart(request: Request):
         }
     )
 
+@app.post("/cart/remove")
+def remove_item(index:int = Form(...)):
+    if 0 <= index < len(local_cart):
+        local_cart.pop(index)
+        
+        return RedirectResponse(url="/cart", status_code = 303)
+
 @app.get("/purchase", response_class=HTMLResponse)
 async def view_purchase(request: Request):
     total = sum(float(item.get("price", 0) or 0) for item in local_cart)
