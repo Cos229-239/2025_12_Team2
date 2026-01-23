@@ -186,3 +186,21 @@ a:visited {
         background-color: #525252;
         box-shadow: 0 8px 16px 0 white;
     }
+
+.remove {
+    background-color: rgba(0,0,0,0.42);
+    border: none;
+    color: white;
+    padding: 2px 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+    margin: 1px 1px;
+    cursor: pointer;
+}
+
+    .remove:hover {
+        background-color: rgba(0,0,0,0.42);
+        box-shadow: 0 8px 16px 0 #a61d1d;
+    }

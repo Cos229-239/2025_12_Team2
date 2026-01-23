@@ -15,6 +15,12 @@
                     ({{ item.retailer }}) -
                     ${{ "%.2f"|format(item.price) }}
                     [<a href="{{ item.product_url }}" target="_blank">Open on retailer site</a>]
+
+                    <form method="post" action="/cart/remove">
+                        <input type="hidden" name="index" value="{{ loop.index0 }}">
+                        <button type="submit" class="remove">x</button>
+                    </form>
+
                 </li>
                 {% endfor %}
             </ul>
