@@ -61,12 +61,12 @@
             padding: 20px;
         }
 
-            .payment-history-box h2 {
+        .payment-history-box h2 {
                 margin-top: 0;
                 font-size: 20px;
                 border-bottom: 1px solid #eee;
                 padding-bottom: 10px;
-            }
+        }
 
         .payment-item {
             display: flex;
@@ -77,9 +77,9 @@
             font-size: 14px;
         }
 
-            .payment-item:last-child {
+        .payment-item:last-child {
                 border-bottom: none;
-            }
+        }
 
         .payment-left {
             display: flex;
@@ -139,25 +139,40 @@
 
    
     <body>
+
         <div class="payment-history-box"> 
         <h2>Payment History</h2> 
-        <div class="payment-item"> 
-            <div class="payment-left"> 
-            <span>Invoice #1023</span> 
-            <span class="payment-date">Jan 10, 2026</span> 
-            </div> 
-            <div> <span class="payment-amount">$120.00</span>
-            <br> 
-            <span class="payment-status status-paid">Paid</span> 
-                </div> </div> <div class="payment-item"> 
-            <div class="payment-left"> 
-            <span>Invoice #1022</span> 
-            <span class="payment-date">Jan 02, 2026</span> 
-            </div> 
-            <div> <span class="payment-amount">$75.50</span>
-            <br> <span class="payment-status status-pending">Pending</span> 
-            </div> 
-                      </div> 
-        <div class="payment-item"> <div class="payment-left"> <span>Invoice #1021</span> <span class="payment-date">Dec 20, 2025</span> </div> <div> <span class="payment-amount">$49.99</span><br> <span class="payment-status status-paid">Paid</span> </div> </div> </div>
+
+            <!-- Block for items in purchase screen -->
+            <div class="payment-item"> 
+                <div class="payment-left"> <span>Invoice #1023</span> 
+                <span class="payment-date">Jan 10, 2026</span> 
+                </div> 
+                <div> <span class="payment-amount">$120.00</span>
+                <br> 
+                <span class="payment-status status-paid">Paid</span> 
+                </div> 
+                </div> 
+
+            <div class="payment-item"> 
+                <div class="payment-left"> <span>Invoice #1022</span> 
+                <span class="payment-date">Jan 02, 2026</span> 
+                </div> 
+                <div> <span class="payment-amount">$75.50</span>
+                <br> 
+                <span class="payment-status status-pending">Pending</span> 
+                </div> 
+                </div> 
+
+            <div class="payment-item"> 
+                <div class="payment-left"> <span> Test </span> 
+                <span class="payment-date">Dec 20, 2025</span> 
+                </div> 
+                <div> <span class="payment-amount">$49.99</span>
+                <br> 
+                <span class="payment-status status-paid">Paid</span> 
+                </div> 
+                </div> 
+        </div>
     </body>
     {% endblock %}
