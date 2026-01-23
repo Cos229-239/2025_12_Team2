@@ -3,22 +3,33 @@
 </head>
 <body class="blended-background">
     <div class="bg-img">
-        <form method="post" action="/login" class="container">
+        <form method="post" action="/creation" class="container">
             {% extends "base.html" %}
+            <!-- Below removes navbar -->
+            {% block navbar %}
+            {% endblock %}
 
             {% block content %}
-            <label>
+            <label for="username">
                 Username:
-                <input type="text" name="username" />
+                <input type="text" id="username" name="username" />
             </label><br />
-            <label>
+            <!-- Error message display area -->
+            {% if error1 %}
+            <p style="color: red;">{{ error1 }}</p>
+            {% endif %}
+            <label for="password">
                 Password:
-                <input type="password" name="password" />
+                <input type="password" id="password" name="password" />
             </label><br />
-            <label>
+            <label for="confirm_password">
                 Confirm Password:
-                <input type="password" name="password" />
+                <input type="password" id="confirm_password" name="confirm_password" />
             </label><br />
+            <!-- Error message display area -->
+            {% if error2 %}
+            <p style="color: red;">{{ error2 }}</p>
+            {% endif %}
             <button type="submit" class="btn">Login</button>
         </form>
         {% endblock %}

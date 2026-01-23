@@ -1,8 +1,38 @@
-{% extends "base.html" %}
+<body class="background_purchase">
+    <div class="content_box">
+        {% extends "base.html" %}
 
-{% block content %}
-<h2>Your Cart</h2>
+        {% block content %}
+        <font color="f0f0f0">
+            <center><h2>Your Cart</h2></center>
 
+            {% if items and items|length > 0 %}
+            <ul>
+                {% for item in items %}
+                <li>
+                    <input type="checkbox" name="selected" value="{{loop.index0}}" />
+                    <strong>{{ item.title }}</strong>
+                    ({{ item.retailer }}) -
+                    {% if item.price is not none%}
+                        ${{ "%.2f"|format(item.price) }}
+                    {% else %}
+                        Free / N/A
+                    {% endif %}
+                    [<a href="{{ item.product_url }}" target="_blank">Open on retailer site</a>]
+
+                    <form method="post" action="/cart/remove">
+                        <input type="hidden" name="index" value="{{ loop.index0 }}">
+                        <button type="submit" class="remove">x</button>
+                    </form>
+
+                </li>
+                {% endfor %}
+            </ul>
+            <hr/>
+            <div style="display:flex; justify-content:flex-start; gap:10px; align-items:center; width:100%;">
+                <form method="get" action="/purchase" style="margin:0;">
+                    <button type="submit" class="purchase">Checkout</button>
+                </form>
             {% if items and items|length > 0 %}
             <ul>
                 {% for item in items %}
@@ -16,6 +46,18 @@
                 {% endfor %}
             </ul>
 
+                <form method="get" action="/Gift" style="margin:0;">
+                    <button type="submit" class="gift">Gift</button>
+                </form>
+            </div>
+
+            {% else %}
+            <p>Your cart is empty.</p>
+        </font>
+        {% endif %}
+        {% endblock %}
+    </div>
+</body>
             <hr/>
             <div style="display:flex; justify-content:flex-start; gap:10px; align-items:center; width:100%;">
                 <form method="get" action="/purchase" style="margin:0;">
