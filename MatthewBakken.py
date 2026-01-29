@@ -109,7 +109,7 @@ async def search_bestbuy(query: str, page_size: int = 100):
                 "retailer": "Best Buy",
                 "platform":platform_value,
                 "product_url": p.get("url") or "",
-                "thumbnail_url": p.get("thumbnailImage") or p.get("image") or "",
+                "thumbnail_url": p.get("image") or "",
             }
         )
 
