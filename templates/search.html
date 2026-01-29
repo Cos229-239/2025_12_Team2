@@ -3,10 +3,91 @@
 {% block content %}
 <h2>Search Games</h2>
 
-<form method="get" action="/search">
-    <input type="text" name="q" value="{{ query }}" placeholder="Enter game title">
-    <button type="submit">Search</button>
+<form method="get" action="/search" style="margin-bottom:12px;">
+    <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end;">
+
+        <div>
+            <label>Search</label><br>
+            <input type="text" name="q" value="{{ query }}" placeholder="Enter game title">
+        </div>
+
+        <div>
+            <div><strong>Platform</strong></div>
+            <label>
+                <input type="checkbox" name="platforms" value="PC"
+                       {% if platforms is defined and "PC" in platforms %}checked{% endif %}>
+                PC
+            </label><br>
+
+            <label>
+                <input type="checkbox" name="platforms" value="Xbox"
+                       {% if platforms is defined and "Xbox" in platforms %}checked{% endif %}>
+                Xbox
+            </label><br>
+
+            <label>
+                <input type="checkbox" name="platforms" value="PlayStation"
+                       {% if platforms is defined and "PlayStation" in platforms %}checked{% endif %}>
+                PlayStation
+            </label><br>
+
+            <label>
+                <input type="checkbox" name="platforms" value="Nintendo Switch"
+                       {% if platforms is defined and "Nintendo Switch" in platforms %}checked{% endif %}>
+                Nintendo Switch
+            </label>
+        </div>
+
+        <div>
+            <div><strong>Retailer</strong></div>
+            <label>
+                <input type="checkbox" name="retailers" value="Steam"
+                       {% if retailers is defined and "Steam" in retailers %}checked{% endif %}>
+                Steam
+            </label><br>
+
+            <label>
+                <input type="checkbox" name="retailers" value="Best Buy"
+                       {% if retailers is defined and "Best Buy" in retailers %}checked{% endif %}>
+                Best Buy
+            </label>
+        </div>
+
+        <div>
+            <label>Min price</label><br>
+            <input type="number" name="min_price" step="0.01"
+                   value="{{ min_price if min_price is not none else '' }}"
+                   placeholder="0.00" style="width:90px;">
+        </div>
+
+        <div>
+            <label>Max price</label><br>
+            <input type="number" name="max_price" step="0.01"
+                   value="{{ max_price if max_price is not none else '' }}"
+                   placeholder="99.99" style="width:90px;">
+        </div>
+
+        <div>
+            <button type="submit">Search</button>
+            <a href="/search" style="margin-left:8px;">Reset</a>
+        </div>
+    </div>
 </form>
+
+<script>
+      document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector('form[action="/search"]');
+    if (!form) return;
+
+    form.addEventListener("submit", () => {
+      const min = form.querySelector('input[name="min_price"]');
+      const max = form.querySelector('input[name="max_price"]');
+
+      if (min && min.value.trim() === "") min.disabled = true;
+      if (max && max.value.trim() === "") max.disabled = true;
+    });
+  });
+</script>
 
 {% if results %}
     <h3>Results</h3>
@@ -26,7 +107,7 @@
             <tr>
                 <td style="width:90px;">
                     {% if item.thumbnail_url %}
-                    <a href="{{ item.product_url }}" target=" = " _blank" rel=" = " noopener noreferrer">
+                    <a href="{{ item.product_url }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ item.thumbnail_url }}"
                              alt="{{ item.title }} cover"
                              style="width:72px; height:72px; object-fit:cover; border-radius:8px;"
