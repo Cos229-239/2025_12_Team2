@@ -36,6 +36,8 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="static\" />
+    <Folder Include="static\css\" />
     <Folder Include="templates\" />
   </ItemGroup>
   <ItemGroup>
