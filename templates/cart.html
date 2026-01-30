@@ -1,6 +1,6 @@
+ {% extends "base.html" %}
 <body class="background_purchase">
     <div class="content_box">
-        {% extends "base.html" %}
 
         {% block content %}
         <font color="f0f0f0">
@@ -14,39 +14,26 @@
                     <strong>{{ item.title }}</strong>
                     ({{ item.retailer }}) -
                     {% if item.price is not none%}
-                    ${{ "%.2f"|format(item.price) }}
+                        ${{ "%.2f"|format(item.price) }}
                     {% else %}
-                    Free / N/A
+                        Free / N/A
                     {% endif %}
                     [<a href="{{ item.product_url }}" target="_blank">Open on retailer site</a>]
 
                     <form method="post" action="/cart/remove">
-                        <input type="hidden" name="index" value="{{ loop.index0 }}">
+                        <input type="hidden" name="index" value="{{loop.index0}}">
                         <button type="submit" class="remove">x</button>
                     </form>
 
                 </li>
                 {% endfor %}
             </ul>
-            
             <hr />
             <div style="display:flex; justify-content:flex-start; gap:10px; align-items:center; width:100%;">
                 <form method="get" action="/purchase" style="margin:0;">
                     <button type="submit" class="purchase">Checkout</button>
                 </form>
-                {% if items and items|length > 0 %}
-                <ul>
-                    {% for item in items %}
-                    <li>
-                        <input type="checkbox" name="selected" value="{{loop.index0}}" />
-                        <strong>{{ item.title }}</strong>
-                        ({{ item.retailer }}) -
-                        ${{ "%.2f"|format(item.price) }}
-                        [<a href="{{ item.product_url }}" target="_blank">Open on retailer site</a>]
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
+
                 <form method="get" action="/Gift" style="margin:0;">
                     <button type="submit" class="gift">Gift</button>
                 </form>
@@ -54,8 +41,8 @@
 
             {% else %}
             <p>Your cart is empty.</p>
-            {% endif %}
         </font>
+        {% endif %}
+        {% endblock %}
     </div>
 </body>
-    {% endblock %}
