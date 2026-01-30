@@ -41,6 +41,15 @@
     <Folder Include="templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="templates\friends.html" />
+    <Content Include="templates\Gift.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="static\" />
+    <Folder Include="static\css\" />
+    <Folder Include="templates\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="static\css\Nintendo_Switch_logo.png" />
     <Content Include="static\css\Playstation_logo.png" />
     <Content Include="static\css\Steam_logo.png" />

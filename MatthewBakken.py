@@ -1,5 +1,5 @@
 from ast import Store
-from asyncio.windows_events import NULL
+#from asyncio.windows_events import NULL
 import os
 from argon2 import PasswordHasher # used for hashing password for protection
 from argon2 import exceptions # used for incorrect password or username entry
@@ -12,7 +12,7 @@ from fastapi.templating import Jinja2Templates
 import httpx # for api call
 from urllib.parse import quote
 import asyncio
-from typing import Optional
+from typing import Optional, List #list add for filtering options
 
 class pasCatch: # used for user account checking
     def __init__(self, name, password):
@@ -96,7 +96,7 @@ async def search_bestbuy(query: str, page_size: int = 100):
             elif "playstation" in name or "ps5" in name or "ps4" in name:
                 platform_value = "PlayStation"
             elif "nintendo switch" in name or "switch" in name:
-                platform_value = "Nintento Switch"
+                platform_value = "Nintendo Switch"
             else:
                 platform_value = "-"
 
@@ -109,7 +109,7 @@ async def search_bestbuy(query: str, page_size: int = 100):
                 "retailer": "Best Buy",
                 "platform":platform_value,
                 "product_url": p.get("url") or "",
-                "thumbnail_url": p.get("thumbnailImage") or p.get("image") or "",
+                "thumbnail_url": p.get("image") or "",
             }
         )
 
@@ -308,18 +308,50 @@ async def friends(request: Request):
 
 
 @app.get("/search", response_class=HTMLResponse)
-async def search_games_page(request: Request, q: str | None = None):
+async def search_games_page(request: Request, q: str | None = None,
+                            platforms: List[str] = Query(default=[]),
+                            retailers: List[str] = Query(default=[]),
+                            min_price: Optional[float]=None,
+                            max_price: Optional[float]=None,
+                            ):
     results = []
 
     if q:
-       results = await search_bestbuy_and_steam(q, page_size_bestbuy=25, page_size_steam=25)
+        results = await search_bestbuy_and_steam(q, page_size_bestbuy=25, page_size_steam=25)
+
+        # platform filtering
+        if platforms:
+            allowed = {p.lower() for p in platforms}
+            results = [
+                r for r in results
+                if any(a in (r.get("platform") or "").lower() for a in allowed)
+            ]
+
+        # retailer filter
+        if retailers:
+           allowed = {r.lower() for r in retailers}
+           results = [
+               r for r in results
+               if (r.get("retailer") or "").lower() in allowed
+           ]
+        # price filtering min and max   
+        if min_price is not None:
+            results = [r for r in results if isinstance(r.get("price"), (int, float)) and r["price"] >= min_price]
+
+        if max_price is not None:
+            results = [r for r in results if isinstance(r.get("price"), (int, float)) and r["price"] <= max_price]
+
 
     return templates.TemplateResponse(
         "search.html",
         {
             "request": request,
             "query": q or "",
-            "results": results
+            "results": results,
+            "platforms": platforms,
+            "retailers": retailers,
+            "min_price": min_price,
+            "max_price": max_price,
         }
     )
 
@@ -356,6 +388,13 @@ async def view_cart(request: Request):
         }
     )
 
+@app.post("/cart/remove")
+def remove_item(index:int = Form(...)):
+    if 0 <= index < len(local_cart):
+        local_cart.pop(index)
+        
+        return RedirectResponse(url="/cart", status_code = 303)
+
 @app.get("/purchase", response_class=HTMLResponse)
 async def view_purchase(request: Request):
     total = sum(float(item.get("price", 0) or 0) for item in local_cart)
@@ -369,3 +408,4 @@ async def view_purchase(request: Request):
         }
     )
 
+#hi
